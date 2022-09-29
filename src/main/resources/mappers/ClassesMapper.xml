@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springmybatis.mapper.ClassesMapper">
+    <select id="queryClasses" resultType="com.example.springmybatis.entity.Classes">
+        select * from t_class where 1=1
+        <if test="arg0.id != null">
+            and id=#{arg0.id}
+        </if>
+        <if test="arg0.className != null">
+            and class_name=#{arg0.className}
+        </if>
+        <if test="arg0.classLeader != null">
+            and class_leader=#{arg0.classLeader}
+        </if>
+        limit #{arg1.start},#{arg1.end}
+    </select>
+
+    <insert id="createClasses" parameterType="list">
+        insert into t_class
+        (class_name,class_leader,create_time) values
+        <foreach collection="list" item="class" separator=",">
+            <trim prefix="(" suffix=")">
+                <if test="class.className != null">
+                    #{class.className, jdbcType=VARCHAR},
+                </if>
+                <if test="class.classLeader != null">
+                    #{class.classLeader, jdbcType=VARCHAR},
+                </if>
+                <if test="class.createTime != null">
+                    #{class.createTime, jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+</mapper>
