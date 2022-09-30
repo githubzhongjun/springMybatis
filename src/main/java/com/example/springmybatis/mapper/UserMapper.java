@@ -2,6 +2,7 @@ package com.example.springmybatis.mapper;
 
 import com.example.springmybatis.common.Page;
 import com.example.springmybatis.entity.User;
+import com.example.springmybatis.entity.dto.UserDto;
 import com.example.springmybatis.entity.queryCondition.UserQueryCondition;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,5 +22,7 @@ public interface UserMapper {
     //删除
     void deleteUsers(UserQueryCondition queryCondition);
 
+    //查询
+    List<UserDto> queryUserOfClass(UserQueryCondition queryCondition, Page page);
 
 }

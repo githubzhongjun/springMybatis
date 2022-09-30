@@ -4,6 +4,7 @@ import com.example.springmybatis.common.Code;
 import com.example.springmybatis.common.Page;
 import com.example.springmybatis.common.ResponseResult;
 import com.example.springmybatis.entity.User;
+import com.example.springmybatis.entity.dto.UserDto;
 import com.example.springmybatis.entity.queryCondition.UserQueryCondition;
 import com.example.springmybatis.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,24 @@ public class UserController {
         userMapper.createUsers(list);
 
         return new ResponseResult(null, Code.success.build(),"新增成功");
+    }
+
+    @GetMapping("/info/class")
+    @Transactional
+    public ResponseResult getUserAndClassInfo(@RequestParam(required = true) Integer id) {
+        UserQueryCondition query = new UserQueryCondition();
+        query.setId(id);
+
+        Page page = new Page(0, 10);
+        List<UserDto> users = userMapper.queryUserOfClass(query, page);
+
+        if (users == null){
+            return new ResponseResult(null, Code.fail.build(),"无数据");
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("result", users);
+
+        return new ResponseResult(map, Code.success.build(),"返回成功");
     }
 }
